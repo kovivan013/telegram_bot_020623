@@ -25,20 +25,24 @@ class BaseMenu:
 
 
 @dataclass(frozen=True)
-class StartMenu(BaseMenu):
+class Menu(BaseMenu):
 
-    test_text_1: str = 'test button 1'
-    test_text_2: str = 'test button 2'
-    test_text_3: str = 'test button 3'
-    test_text_4: str = 'test button 4'
+    button_1: str = 'test_1'
 
     @classmethod
     def keyboard(cls) -> 'ReplyKeyboardMarkup':
-
         return default_keyboard().add(
-            KeyboardButton(cls.test_text_1),
-            KeyboardButton(cls.test_text_2),
-            KeyboardButton(cls.test_text_3),
-            KeyboardButton(cls.test_text_4),
-            KeyboardButton(cls.cancel_key)
+            KeyboardButton(cls.button_1)
+        )
+
+
+@dataclass(frozen=True)
+class Keyboard(BaseMenu):
+
+    button_1: str = 'test_2'
+
+    @classmethod
+    def keyboard(cls) -> 'ReplyKeyboardMarkup':
+        return default_keyboard().add(
+            KeyboardButton(cls.button_1)
         )

@@ -8,7 +8,7 @@ async def on_startup(_) -> None:
     print('Bot Started!')
 
 async def on_shutdown(_) -> None:
-    print('Bot Stutdown!')
+    print('Bot Shutdown!')
 
 def start_bot() -> None:
 

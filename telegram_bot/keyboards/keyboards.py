@@ -29,3 +29,40 @@ class BaseMenu:
         return default_keyboard().add(
             KeyboardButton(cls.cancel_key)
         )
+
+@dataclass(frozen=True)
+class MainMenu:
+    """ Главное меню бота """
+
+    help_btn: str = '🆘 Помощь'
+    desc_btn: str = '📋 Описание Бота'
+
+    @classmethod
+    def keyboard(cls) -> Union[ReplyKeyboardMarkup]:
+        keyboard = default_keyboard()
+        keyboard.add(
+            KeyboardButton(
+                text=cls.help_btn
+            ),
+            KeyboardButton(
+                text=cls.desc_btn
+            )
+        )
+
+        return keyboard
+
+class ToMainMenu:
+    """ Возврат на главное меню """
+
+    @classmethod
+    def keyboard(cls) -> Union[InlineKeyboardMarkup]:
+        keyboard = default_inline_keyboard()
+
+        keyboard.add(
+            InlineKeyboardButton(
+                text='На главное меню',
+                callback_data='Back_To_Main_Menu'
+            )
+        )
+
+        return keyboard

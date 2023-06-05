@@ -1,5 +1,5 @@
 from telegram_bot_020623.telegram_bot.config import Bot, Dispatcher
-from telegram_bot_020623.telegram_bot.keyboards.keyboards import MainMenu, ToMainMenu
+from telegram_bot_020623.telegram_bot.keyboards.keyboards import Main_Menu, ToMain_Menu, GeneratePhoto_Menu
 from aiogram.types import Message, CallbackQuery
 from aiogram.dispatcher.filters import Text
 
@@ -11,40 +11,55 @@ async def start(message: Message) -> None:
     """ Возвращает главное меню """
 
     await message.answer(text=f'*{message.from_user.username}*, главное меню:',
-                         reply_markup=MainMenu.keyboard(),
+                         reply_markup=Main_Menu.keyboard(),
                          parse_mode="Markdown"
                          )
 
 async def help(message: Message) -> None:
     await message.answer(text=f'*{message.from_user.username}*, к сожалению, здесь пока ничего нет!',
-                   reply_markup=ToMainMenu.keyboard(),
+                   reply_markup=ToMain_Menu.keyboard(),
                    parse_mode='Markdown')
 
 async def description(message: Message) -> None:
     await message.answer(text=f'*{message.from_user.username}*, к сожалению, здесь пока ничего нет!',
-                   reply_markup=ToMainMenu.keyboard(),
+                   reply_markup=ToMain_Menu.keyboard(),
                    parse_mode='Markdown')
+
+async def random_photo(message: Message) -> None:
+    await message.answer(text=f'*{message.from_user.username}*, к сожалению, здесь пока ничего нет!',
+                         reply_markup=GeneratePhoto_Menu.keyboard(),
+                         parse_mode='Markdown')
 
 """ CALLBACKS """
 
 async def to_main_menu_callback(callback: CallbackQuery) -> None:
     if callback.data == 'Back_To_Main_Menu':
         await callback.message.answer(text=f'главное меню:',
-                         reply_markup=MainMenu.keyboard(),
-                         parse_mode="Markdown"
-        )
+                                      reply_markup=Main_Menu.keyboard(),
+                                      parse_mode="Markdown"
+                                      )
         await callback.message.delete()
+
+async def next_rand_photo(callback: CallbackQuery) -> None:
+    if callback.data == 'Next_Photo':
+        pass
 
 def register_main_handlers(dp: Dispatcher) -> None:
     dp.register_message_handler(
         start, commands=['start']
     )
     dp.register_message_handler(
-        help, Text(equals=MainMenu.help_btn)
+        help, Text(equals=Main_Menu.help_btn)
     )
     dp.register_message_handler(
-        description, Text(equals=MainMenu.desc_btn)
+        description, Text(equals=Main_Menu.desc_btn)
+    )
+    dp.register_message_handler(
+        random_photo, Text(equals=Main_Menu.rand_btn)
     )
     dp.register_callback_query_handler(
         to_main_menu_callback
+    )
+    dp.register_callback_query_handler(
+        next_rand_photo
     )

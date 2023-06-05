@@ -31,11 +31,12 @@ class BaseMenu:
         )
 
 @dataclass(frozen=True)
-class MainMenu:
+class Main_Menu:
     """ Главное меню бота """
 
     help_btn: str = '🆘 Помощь'
     desc_btn: str = '📋 Описание Бота'
+    rand_btn: str = '📷 Рандомное Фото'
 
     @classmethod
     def keyboard(cls) -> Union[ReplyKeyboardMarkup]:
@@ -46,12 +47,16 @@ class MainMenu:
             ),
             KeyboardButton(
                 text=cls.desc_btn
+            ),
+            KeyboardButton(
+                text=cls.rand_btn
             )
         )
 
         return keyboard
 
-class ToMainMenu:
+@dataclass(frozen=True)
+class ToMain_Menu:
     """ Возврат на главное меню """
 
     @classmethod
@@ -62,6 +67,27 @@ class ToMainMenu:
             InlineKeyboardButton(
                 text='На главное меню',
                 callback_data='Back_To_Main_Menu'
+            )
+        )
+
+        return keyboard
+
+@dataclass(frozen=True)
+class GeneratePhoto_Menu:
+    """Меню генерации рандомного фото"""
+
+    @classmethod
+    def keyboard(cls) -> Union[InlineKeyboardMarkup]:
+        keyboard = default_inline_keyboard()
+
+        keyboard.add(
+            InlineKeyboardButton(
+                text='На главное меню',
+                callback_data='Back_To_Main_Menu'
+            ),
+            InlineKeyboardButton(
+                text='Следующее',
+                callback_data='Next_Photo'
             )
         )
 

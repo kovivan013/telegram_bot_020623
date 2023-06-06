@@ -15,7 +15,7 @@ def default_keyboard() -> ReplyKeyboardMarkup:
 
 def default_inline_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup (
-        row_width=2
+        row_width=3
     )
 
 @dataclass(frozen=True)
@@ -82,13 +82,21 @@ class GeneratePhoto_Menu:
 
         keyboard.add(
             InlineKeyboardButton(
+                text='Лайк 👍',
+                callback_data='like'
+            ),
+            InlineKeyboardButton(
+                text='Следующая фотография',
+                callback_data='Next_Photo'
+            ),
+            InlineKeyboardButton(
+                text='Дизлайк 👎',
+                callback_data='dislike'
+            ),
+            InlineKeyboardButton(
                 text='На главное меню',
                 callback_data='Back_To_Main_Menu'
             ),
-            InlineKeyboardButton(
-                text='Следующее',
-                callback_data='Next_Photo'
-            )
         )
 
         return keyboard

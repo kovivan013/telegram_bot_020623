@@ -1,4 +1,7 @@
-from telegram_bot_020623.telegram_bot.config import Bot, Dispatcher
+import random
+import string
+
+from telegram_bot_020623.telegram_bot.config import Bot, Dispatcher, like_status
 from telegram_bot_020623.telegram_bot.keyboards.keyboards import Main_Menu, ToMain_Menu, GeneratePhoto_Menu
 from aiogram.types import Message, CallbackQuery
 from aiogram.dispatcher.filters import Text
@@ -8,31 +11,35 @@ from aiogram.dispatcher.filters import Text
 
 
 async def start(message: Message) -> None:
-    """ Возвращает главное меню """
-
+    # Возвращает главное меню
     await message.answer(text=f'*{message.from_user.username}*, главное меню:',
                          reply_markup=Main_Menu.keyboard(),
                          parse_mode="Markdown"
                          )
 
+
 async def help(message: Message) -> None:
+    # Возвращает меню help
     await message.answer(text=f'*{message.from_user.username}*, к сожалению, здесь пока ничего нет!',
                    reply_markup=ToMain_Menu.keyboard(),
                    parse_mode='Markdown')
 
 async def description(message: Message) -> None:
+    # Возвращает меню описания bot
     await message.answer(text=f'*{message.from_user.username}*, к сожалению, здесь пока ничего нет!',
                    reply_markup=ToMain_Menu.keyboard(),
                    parse_mode='Markdown')
 
 async def random_photo(message: Message) -> None:
-    await message.answer(text=f'*{message.from_user.username}*, к сожалению, здесь пока ничего нет!',
+    await message.answer(text=f'*{message.from_user.username}*, рандомный символ: {random.choice(string.ascii_lowercase)}',
                          reply_markup=GeneratePhoto_Menu.keyboard(),
                          parse_mode='Markdown')
 
-""" CALLBACKS """
 
-async def to_main_menu_callback(callback: CallbackQuery) -> None:
+
+async def callback_handlers(callback: CallbackQuery) -> None:
+    global like_status
+    # Ловит callback возврата на главное меню
     if callback.data == 'Back_To_Main_Menu':
         await callback.message.answer(text=f'главное меню:',
                                       reply_markup=Main_Menu.keyboard(),
@@ -40,11 +47,34 @@ async def to_main_menu_callback(callback: CallbackQuery) -> None:
                                       )
         await callback.message.delete()
 
-async def next_rand_photo(callback: CallbackQuery) -> None:
+    # Ловит callbacks от like и dislike
+    if callback.data == 'like':
+        if like_status == None or 'dislike':
+            like_status ='like'
+            await callback.answer(text=f'Вы поставили лайк на фотографию!')
+            print(like_status)
+        else:
+            await callback.answer(text=f'Вы уже поставили лайк на фотографию!')
+
+
+    elif callback.data == 'dislike':
+        if like_status == None or 'like':
+            like_status = 'dislike'
+            print(like_status)
+            await callback.answer(text=f'Вы поставили дизлайк на фотографию!')
+        else:
+            await callback.answer(text=f'Вы уже поставили дизлайк на фотографию!')
+
+    # Ловит callback генерации нового фото (символа)
     if callback.data == 'Next_Photo':
-        pass
+        await callback.message.answer(text=f'*{callback.message.from_user.username}*, рандомный символ: {random.choice(string.ascii_lowercase)}',
+                         reply_markup=GeneratePhoto_Menu.keyboard(),
+                         parse_mode='Markdown')
+        await callback.message.delete()
+
 
 def register_main_handlers(dp: Dispatcher) -> None:
+
     dp.register_message_handler(
         start, commands=['start']
     )
@@ -58,8 +88,5 @@ def register_main_handlers(dp: Dispatcher) -> None:
         random_photo, Text(equals=Main_Menu.rand_btn)
     )
     dp.register_callback_query_handler(
-        to_main_menu_callback
-    )
-    dp.register_callback_query_handler(
-        next_rand_photo
+        callback_handlers
     )

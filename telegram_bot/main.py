@@ -10,6 +10,8 @@ async def on_startup(_) -> None:
 async def on_shutdown(_) -> None:
     print('Bot Shutdown!')
 
+
+
 def start_bot() -> None:
 
     executor.start_polling(

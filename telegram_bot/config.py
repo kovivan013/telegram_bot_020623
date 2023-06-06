@@ -4,3 +4,4 @@ TOKEN_BOT: str = '6058952305:AAERo1BjumdhmIhTMqM7ZwqDB5PyaSZrLfI'
 
 bot = Bot(token=TOKEN_BOT)
 dp = Dispatcher(bot)
+like_status = None

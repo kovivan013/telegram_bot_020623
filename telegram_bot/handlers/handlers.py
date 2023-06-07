@@ -50,7 +50,6 @@ async def callback_handlers(callback: CallbackQuery) -> None:
     # Ловит callbacks от like и dislike
     if callback.data == 'like':
         if not like_status or None:
-            lk()
             await callback.answer(text=f'Вы поставили лайк на фотографию!')
             print(like_status)
         else:
@@ -59,8 +58,6 @@ async def callback_handlers(callback: CallbackQuery) -> None:
 
     elif callback.data == 'dislike':
         if like_status or None:
-            lk()
-            print(like_status)
             await callback.answer(text=f'Вы поставили дизлайк на фотографию!')
         else:
             await callback.answer(text=f'Вы уже поставили дизлайк на фотографию!')

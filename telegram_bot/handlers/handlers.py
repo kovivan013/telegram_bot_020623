@@ -1,7 +1,7 @@
 import random
 import string
 
-from telegram_bot_020623.telegram_bot.config import Bot, Dispatcher, like_status
+from telegram_bot_020623.telegram_bot.config import Bot, Dispatcher, like_status, lk
 from telegram_bot_020623.telegram_bot.keyboards.keyboards import Main_Menu, ToMain_Menu, GeneratePhoto_Menu
 from aiogram.types import Message, CallbackQuery
 from aiogram.dispatcher.filters import Text
@@ -49,8 +49,8 @@ async def callback_handlers(callback: CallbackQuery) -> None:
 
     # Ловит callbacks от like и dislike
     if callback.data == 'like':
-        if like_status == None or 'dislike':
-            like_status ='like'
+        if not like_status or None:
+            lk()
             await callback.answer(text=f'Вы поставили лайк на фотографию!')
             print(like_status)
         else:
@@ -58,8 +58,8 @@ async def callback_handlers(callback: CallbackQuery) -> None:
 
 
     elif callback.data == 'dislike':
-        if like_status == None or 'like':
-            like_status = 'dislike'
+        if like_status or None:
+            lk()
             print(like_status)
             await callback.answer(text=f'Вы поставили дизлайк на фотографию!')
         else:

@@ -1,7 +1,21 @@
 from aiogram import Bot, Dispatcher
+from dotenv import load_dotenv, find_dotenv
+import os
 
-TOKEN_BOT: str = '6058952305:AAERo1BjumdhmIhTMqM7ZwqDB5PyaSZrLfI'
+load_dotenv(find_dotenv())
 
-bot = Bot(token=TOKEN_BOT)
+bot = Bot(token=os.getenv('TOKEN_API'))
 dp = Dispatcher(bot)
-like_status = None
+
+
+def default() -> None:
+    global like_status
+    like_status = None
+
+def lk() -> None:
+    global like_status
+    if like_status or None:
+        like_status = False
+    elif not like_status or None:
+        like_status = True
+

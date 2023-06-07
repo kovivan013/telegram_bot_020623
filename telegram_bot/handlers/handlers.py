@@ -1,7 +1,7 @@
 import random
 import string
 
-from telegram_bot_020623.telegram_bot.config import Bot, Dispatcher, like_status, lk
+from telegram_bot_020623.telegram_bot.config import Bot, Dispatcher
 from telegram_bot_020623.telegram_bot.keyboards.keyboards import Main_Menu, ToMain_Menu, GeneratePhoto_Menu
 from aiogram.types import Message, CallbackQuery
 from aiogram.dispatcher.filters import Text

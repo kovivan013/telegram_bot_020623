@@ -39,19 +39,19 @@ class Main_Menu:
     help_btn: str = '🆘 Помощь'
     desc_btn: str = '📋 Описание Бота'
     rand_btn: str = '📷 Рандомное Фото'
+    lang_btn: str = '📱 Выбрать Язык'
 
     @classmethod
     def keyboard(cls) -> Union[ReplyKeyboardMarkup]:
         keyboard = default_keyboard()
         keyboard.add(
-            KeyboardButton(
-                text=cls.help_btn
+            KeyboardButton(text=cls.help_btn
             ),
-            KeyboardButton(
-                text=cls.desc_btn
+            KeyboardButton(text=cls.desc_btn
             ),
-            KeyboardButton(
-                text=cls.rand_btn
+            KeyboardButton(text=cls.rand_btn
+            ),
+            KeyboardButton(text=cls.lang_btn
             )
         )
 
@@ -120,6 +120,8 @@ class Collapse_InlineMenu:
 
         return keyboard
 
+
+
 @dataclass(frozen=True)
 class Language_Menu:
 
@@ -132,23 +134,44 @@ class Language_Menu:
         russian_list = ['ru', 'ru', 'ru', 'ru', 'ru', 'ru']
         polish_list = ['pl', 'pl', 'pl', 'pl', 'pl', 'pl']
 
-        if language is 'English':
+        if language == 'English':
             lst = english_list
-        elif language is 'Lietuviskai':
+        elif language == 'Lietuviskai':
             lst = lietuviskai_list
-        elif language is 'Russian':
+        elif language == 'Russian':
             lst = russian_list
-        elif language is 'Polish':
+        elif language == 'Polish':
             lst = polish_list
 
+        x = 0
         for i in lst:
             if x >= 6:
                 break
-            keyboard.add(KeyboardButton(text=str(english_list[x])),
-                         KeyboardButton(text=str(english_list[x + 1]))
+            keyboard.add(KeyboardButton(text=str(lst[x])),
+                         KeyboardButton(text=str(lst[x + 1]))
                          )
             x += 2
 
         return keyboard
 
 
+class LanguageVariant_Menu:
+
+    en_btn: str = 'English'
+    li_btn: str = 'Lietuviskai'
+    ru_btn: str = 'Russian'
+    pl_btn: str = 'Polish'
+
+    @classmethod
+    def keyboard(cls) -> Union[ReplyKeyboardMarkup]:
+        keyboard = default_keyboard()
+
+        keyboard.add(
+            KeyboardButton(text=cls.en_btn),
+            KeyboardButton(text=cls.li_btn),
+            KeyboardButton(text=cls.ru_btn),
+            KeyboardButton(text=cls.pl_btn),
+
+        )
+
+        return keyboard

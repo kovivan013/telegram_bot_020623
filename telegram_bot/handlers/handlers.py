@@ -2,7 +2,7 @@ import random
 import string
 
 from telegram_bot_020623.telegram_bot.config import Bot, Dispatcher
-from telegram_bot_020623.telegram_bot.keyboards.keyboards import Main_Menu, ToMain_Menu, GeneratePhoto_Menu, Collapse_InlineMenu
+from telegram_bot_020623.telegram_bot.keyboards.keyboards import Main_Menu, ToMain_Menu, GeneratePhoto_Menu, Collapse_InlineMenu, Language_Menu
 from aiogram.types import Message, CallbackQuery
 from aiogram.dispatcher.filters import Text
 
@@ -21,7 +21,7 @@ async def start(message: Message) -> None:
 async def help(message: Message) -> None:
     # Возвращает меню help
     await message.answer(text=f'*{message.from_user.username}*, к сожалению, здесь пока ничего нет!',
-                   reply_markup=ToMain_Menu.keyboard(),
+                   reply_markup=Language_Menu.keyboard('Polish'),
                    parse_mode='Markdown')
 
 async def description(message: Message) -> None:

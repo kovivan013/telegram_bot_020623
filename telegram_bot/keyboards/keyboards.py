@@ -119,3 +119,36 @@ class Collapse_InlineMenu:
         )
 
         return keyboard
+
+@dataclass(frozen=True)
+class Language_Menu:
+
+    @classmethod
+    def keyboard(cls, language) -> Union[ReplyKeyboardMarkup]:
+        keyboard = default_keyboard()
+
+        english_list = ['en', 'en', 'en', 'en', 'en', 'en']
+        lietuviskai_list = ['lat', 'lat', 'lat', 'lat', 'lat', 'lat']
+        russian_list = ['ru', 'ru', 'ru', 'ru', 'ru', 'ru']
+        polish_list = ['pl', 'pl', 'pl', 'pl', 'pl', 'pl']
+
+        if language is 'English':
+            lst = english_list
+        elif language is 'Lietuviskai':
+            lst = lietuviskai_list
+        elif language is 'Russian':
+            lst = russian_list
+        elif language is 'Polish':
+            lst = polish_list
+
+        for i in lst:
+            if x >= 6:
+                break
+            keyboard.add(KeyboardButton(text=str(english_list[x])),
+                         KeyboardButton(text=str(english_list[x + 1]))
+                         )
+            x += 2
+
+        return keyboard
+
+

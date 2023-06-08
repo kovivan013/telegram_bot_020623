@@ -50,7 +50,7 @@ async def random_photo(message: Message) -> None:
                          parse_mode='Markdown')
 
 async def callback_handlers(callback: CallbackQuery) -> None:
-    print(callback)
+
     # Ловит callback возврата на главное меню
     if callback.data == 'Back_To_Main_Menu':
         await callback.message.answer(text=f'главное меню:',
@@ -62,7 +62,6 @@ async def callback_handlers(callback: CallbackQuery) -> None:
     # Ловит callbacks от like и dislike
     if callback.data == 'like':
         await callback.answer(text=f'Вы поставили лайк на фотографию!')
-
 
     elif callback.data == 'dislike':
         await callback.answer(text=f'Вы поставили дизлайк на фотографию!')

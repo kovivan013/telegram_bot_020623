@@ -1,6 +1,7 @@
 from aiogram import executor
 from config import bot, dp
 from handlers.handlers import register_main_handlers
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 register_main_handlers(dp)
 

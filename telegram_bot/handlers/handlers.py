@@ -2,7 +2,7 @@ import random
 import string
 
 from telegram_bot_020623.telegram_bot.config import Bot, Dispatcher
-from telegram_bot_020623.telegram_bot.keyboards.keyboards import Main_Menu, ToMain_Menu, GeneratePhoto_Menu
+from telegram_bot_020623.telegram_bot.keyboards.keyboards import Main_Menu, ToMain_Menu, GeneratePhoto_Menu, Collapse_InlineMenu
 from aiogram.types import Message, CallbackQuery
 from aiogram.dispatcher.filters import Text
 
@@ -38,7 +38,7 @@ async def random_photo(message: Message) -> None:
 
 
 async def callback_handlers(callback: CallbackQuery) -> None:
-    global like_status
+    print(callback)
     # Ловит callback возврата на главное меню
     if callback.data == 'Back_To_Main_Menu':
         await callback.message.answer(text=f'главное меню:',
@@ -49,25 +49,31 @@ async def callback_handlers(callback: CallbackQuery) -> None:
 
     # Ловит callbacks от like и dislike
     if callback.data == 'like':
-        if not like_status or None:
-            await callback.answer(text=f'Вы поставили лайк на фотографию!')
-            print(like_status)
-        else:
-            await callback.answer(text=f'Вы уже поставили лайк на фотографию!')
+        await callback.answer(text=f'Вы поставили лайк на фотографию!')
 
 
     elif callback.data == 'dislike':
-        if like_status or None:
-            await callback.answer(text=f'Вы поставили дизлайк на фотографию!')
-        else:
-            await callback.answer(text=f'Вы уже поставили дизлайк на фотографию!')
+        await callback.answer(text=f'Вы поставили дизлайк на фотографию!')
 
     # Ловит callback генерации нового фото (символа)
     if callback.data == 'Next_Photo':
-        await callback.message.answer(text=f'*{callback.message.from_user.username}*, рандомный символ: {random.choice(string.ascii_lowercase)}',
+        await callback.message.answer(text=f'*{callback.from_user.username}*, рандомный символ: {random.choice(string.ascii_lowercase)}',
                          reply_markup=GeneratePhoto_Menu.keyboard(),
                          parse_mode='Markdown')
         await callback.message.delete()
+
+    # Ловит callback на сворачивание меню
+    if callback.data == 'Expand_Menu':
+        await callback.message.edit_reply_markup(
+            reply_markup=GeneratePhoto_Menu.keyboard()
+        )
+
+    # Ловит callback на разворот меню
+    if callback.data == 'Collapse_Menu':
+        await callback.message.edit_reply_markup(
+            reply_markup=Collapse_InlineMenu.keyboard()
+        )
+
 
 
 def register_main_handlers(dp: Dispatcher) -> None:

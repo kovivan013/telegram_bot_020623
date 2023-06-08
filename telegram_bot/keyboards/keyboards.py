@@ -25,10 +25,12 @@ class BaseMenu:
 
     @classmethod
     def keyboard(cls) -> Union[ReplyKeyboardMarkup]:
+        keyboard = default_keyboard()
 
-        return default_keyboard().add(
+        keyboard.add(
             KeyboardButton(cls.cancel_key)
         )
+        return keyboard
 
 @dataclass(frozen=True)
 class Main_Menu:
@@ -78,25 +80,42 @@ class GeneratePhoto_Menu:
 
     @classmethod
     def keyboard(cls) -> Union[InlineKeyboardMarkup]:
+
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text=f'🠉',
+                                  callback_data='Collapse_Menu'
+            )],
+
+            [InlineKeyboardButton(text=f'Лайк 👍',
+                                  callback_data='like'
+                                  ),
+             InlineKeyboardButton(text=f'Следующая фотография',
+                                  callback_data='Next_Photo'
+                                  ),
+             InlineKeyboardButton(text=f'Дизлайк 👎',
+                                  callback_data='dislike'
+                                  ),
+            ],
+
+            [InlineKeyboardButton(
+                text='На главное меню',
+                callback_data='Back_To_Main_Menu'
+            )]
+        ])
+
+        return keyboard
+
+@dataclass(frozen=True)
+class Collapse_InlineMenu:
+
+    @classmethod
+    def keyboard(cls) -> Union[InlineKeyboardMarkup]:
         keyboard = default_inline_keyboard()
 
         keyboard.add(
-            InlineKeyboardButton(
-                text='Лайк 👍',
-                callback_data='like'
-            ),
-            InlineKeyboardButton(
-                text='Следующая фотография',
-                callback_data='Next_Photo'
-            ),
-            InlineKeyboardButton(
-                text='Дизлайк 👎',
-                callback_data='dislike'
-            ),
-            InlineKeyboardButton(
-                text='На главное меню',
-                callback_data='Back_To_Main_Menu'
-            ),
+            InlineKeyboardButton(text=f'🠋',
+                                 callback_data='Expand_Menu'
+                                 )
         )
 
         return keyboard

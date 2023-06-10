@@ -5,6 +5,7 @@ from telegram_bot_020623.telegram_bot.config import Bot, Dispatcher, bot
 from telegram_bot_020623.telegram_bot.keyboards.keyboards import StartMenu, InfoInlineMenu
 from telegram_bot_020623.telegram_bot.states.states import MainStates
 from aiogram.types import Message, CallbackQuery
+from aiogram.types import ReplyKeyboardRemove
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.storage import FSMContext
 
@@ -20,8 +21,13 @@ async def info(message: Message, state: FSMContext) -> None:
                          parse_mode='Markdown')
 
 async def get_info(callback: CallbackQuery, state: FSMContext) -> None:
-    await callback.message.answer(text=f'*{callback.from_user.username}*, информация получена успешно!',
+    await callback.message.answer(text=f'*{callback.from_user.username}*, [информация получена успешно](https://www.roblox.com/home)!',
                                   parse_mode='Markdown')
+    await bot.send_photo(photo='https://images.unsplash.com/photo-1566275529824-cca6d008f3da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGhvdG98ZW58MHx8MHx8fDA%3D&w=1000&q=80',
+                         caption=f'[test](https://www.roblox.com/home)',
+                         chat_id=callback.message.chat.id,
+                         reply_markup=ReplyKeyboardRemove(),
+                         parse_mode='Markdown')
     await state.finish()
 
 def register_main_handlers(dp: Dispatcher) -> None:

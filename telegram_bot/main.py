@@ -1,9 +1,11 @@
 from aiogram import executor
 from config import bot, dp
-from handlers.handlers import register_main_handlers
+from handlers.main_handlers import register_main_handlers
+from handlers.debug_handlers import register_debug_handlers
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 register_main_handlers(dp)
+register_debug_handlers(dp)
 
 async def on_startup(_) -> None:
     print('Bot Started!')

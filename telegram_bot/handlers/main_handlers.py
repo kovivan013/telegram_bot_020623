@@ -21,14 +21,15 @@ async def info(message: Message, state: FSMContext) -> None:
                          parse_mode='Markdown')
 
 async def get_info(callback: CallbackQuery, state: FSMContext) -> None:
-    await callback.message.answer(text=f'*{callback.from_user.username}*, [информация получена успешно](https://www.roblox.com/home)!',
+    async with state.proxy() as data:
+        data['telegram_id'] = callback.from_user.id
+        data['username'] = callback.from_user.username if callback.from_user.username is not None else ""
+
+    await callback.message.answer(text=f"Your *telegram ID* is {data['telegram_id']}\n" \
+                                  f"Your *telegram username* is {data['username']}",
                                   parse_mode='Markdown')
-    await bot.send_photo(photo='https://images.unsplash.com/photo-1566275529824-cca6d008f3da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGhvdG98ZW58MHx8MHx8fDA%3D&w=1000&q=80',
-                         caption=f'[test](https://www.roblox.com/home)',
-                         chat_id=callback.message.chat.id,
-                         reply_markup=ReplyKeyboardRemove(),
-                         parse_mode='Markdown')
     await state.finish()
+
 
 def register_main_handlers(dp: Dispatcher) -> None:
     dp.register_message_handler(
